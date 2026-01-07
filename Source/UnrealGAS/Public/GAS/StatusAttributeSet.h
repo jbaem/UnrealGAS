@@ -33,4 +33,12 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = "PJB|GAS|Attributes")
 	FGameplayAttributeData MaxHealth;
 	ATTRIBUTE_ACCESSORS(UStatusAttributeSet, MaxHealth);
+
+	UPROPERTY(BlueprintReadOnly, Category = "PJB|GAS|Attributes")
+	FGameplayAttributeData Mana;
+	ATTRIBUTE_ACCESSORS(UStatusAttributeSet, Mana);
+
+	UPROPERTY(BlueprintReadOnly, Category = "PJB|GAS|Attributes")
+	FGameplayAttributeData MaxMana;
+	ATTRIBUTE_ACCESSORS(UStatusAttributeSet, MaxMana);
 };

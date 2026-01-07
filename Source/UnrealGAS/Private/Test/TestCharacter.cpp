@@ -11,6 +11,9 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 
+#include "Components/WidgetComponent.h"
+#include "Interface/TwinResource.h"
+
 #include "AbilitySystemComponent.h"
 #include "GAS/StatusAttributeSet.h"
 
@@ -43,7 +46,9 @@ ATestCharacter::ATestCharacter()
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
 
-
+	BarWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("TwinResourceBarComp"));
+	BarWidget->SetupAttachment(RootComponent);
+	
 	ASC = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("ASC"));
 	Status = CreateDefaultSubobject<UStatusAttributeSet>(TEXT("Status"));
 }
@@ -61,7 +66,17 @@ void ATestCharacter::BeginPlay()
 	}
 	if (Status)
 	{
-		Status->SetHealth(100.0f);
+		if (BarWidget && BarWidget->GetWidget())
+		{
+			if (BarWidget->GetWidget()->Implements<UTwinResource>())
+			{
+				ITwinResource::Execute_UpdateMaxHealth(BarWidget->GetWidget(), Status->GetMaxHealth());
+				ITwinResource::Execute_UpdateCurrentHealth(BarWidget->GetWidget(), Status->GetHealth());
+				
+				ITwinResource::Execute_UpdateMaxMana(BarWidget->GetWidget(), Status->GetMaxMana());
+				ITwinResource::Execute_UpdateCurrentMana(BarWidget->GetWidget(), Status->GetMana());
+			}
+		}
 	}
 }
 
@@ -138,6 +153,11 @@ void ATestCharacter::DoJumpEnd()
 void ATestCharacter::OnHealthChanged(const FOnAttributeChangeData& Data)
 {
 	UE_LOG(LogTemp, Log, TEXT("On Health Changed: OldValue=%f, NewValue=%f"), Data.OldValue, Data.NewValue);
-
+	ITwinResource::Execute_UpdateCurrentHealth(BarWidget->GetWidget(), Status->GetHealth());
 }
 
+void ATestCharacter::OnManaChanged(const FOnAttributeChangeData& Data)
+{
+	UE_LOG(LogTemp, Log, TEXT("On Mana Changed: OldValue=%f, NewValue=%f"), Data.OldValue, Data.NewValue);
+	ITwinResource::Execute_UpdateCurrentMana(BarWidget->GetWidget(), Status->GetMana());
+}

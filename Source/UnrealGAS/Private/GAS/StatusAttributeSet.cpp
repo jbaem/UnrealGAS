@@ -5,6 +5,9 @@ UStatusAttributeSet::UStatusAttributeSet()
 {
 	InitMaxHealth(100.0f);
 	InitHealth(100.0f);
+
+	InitMaxMana(100.0f);
+	InitMana(100.0f);
 }
 
 void UStatusAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
@@ -14,6 +17,11 @@ void UStatusAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute
 	if(Attribute == GetHealthAttribute())
 	{
 		NewValue = FMath::Clamp(GetHealth(), 0.0f, GetMaxHealth());
+	}
+
+	if(Attribute == GetManaAttribute())
+	{
+		NewValue = FMath::Clamp(GetMana(), 0.0f, GetMaxMana());
 	}
 }
 

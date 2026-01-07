@@ -4,7 +4,7 @@
 #include "GameFramework/Character.h"
 
 #include "AbilitySystemInterface.h"
-#include "GAS/StatusAttributeSet.h"
+#include "GameplayEffectTypes.h"
 
 #include "TestCharacter.generated.h"
 
@@ -37,9 +37,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "PJB")
 	virtual void DoJumpEnd();
 
-	UFUNCTION(BlueprintCallable, Category = "PJB")
-	void OnHealthChanged(const FOnAttributeChangeData& Data);
-
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
@@ -47,11 +44,18 @@ protected:
 	void Move(const struct FInputActionValue& Value);
 	void Look(const struct FInputActionValue& Value);
 
+private:
+	void OnHealthChanged(const FOnAttributeChangeData& Data);
+	void OnManaChanged(const FOnAttributeChangeData& Data);
+
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "PJB")
-	TObjectPtr<class USpringArmComponent> CameraBoom;
+	TObjectPtr<class USpringArmComponent> CameraBoom = nullptr;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "PJB")
-	TObjectPtr<class UCameraComponent> FollowCamera;
+	TObjectPtr<class UCameraComponent> FollowCamera = nullptr;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "PJB")
+	TObjectPtr<class UWidgetComponent> BarWidget = nullptr;
 
 	UPROPERTY(EditAnywhere, Category = "PJB|Input")
 	TObjectPtr<class UInputAction> JumpAction;
@@ -67,5 +71,5 @@ protected:
 	TObjectPtr<UAbilitySystemComponent> ASC = nullptr;
 
 	UPROPERTY()
-	TObjectPtr<UStatusAttributeSet> Status = nullptr;
+	TObjectPtr<class UStatusAttributeSet> Status = nullptr;
 };
