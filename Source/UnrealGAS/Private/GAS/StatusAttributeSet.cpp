@@ -16,12 +16,12 @@ void UStatusAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute
 
 	if(Attribute == GetHealthAttribute())
 	{
-		NewValue = FMath::Clamp(GetHealth(), 0.0f, GetMaxHealth());
+		NewValue = FMath::Clamp(NewValue, 0.0f, GetMaxHealth());
 	}
 
 	if(Attribute == GetManaAttribute())
 	{
-		NewValue = FMath::Clamp(GetMana(), 0.0f, GetMaxMana());
+		NewValue = FMath::Clamp(NewValue, 0.0f, GetMaxMana());
 	}
 }
 
@@ -37,9 +37,21 @@ void UStatusAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCall
 
 	if(Data.EvaluatedData.Attribute == GetHealthAttribute())
 	{
+		SetHealth(FMath::Clamp(GetHealth(), 0.0f, GetMaxHealth()));
+
 		if(GetHealth() <= 0.0f)
 		{
 			// TODO: Handle death
+		}
+	}
+
+	if (Data.EvaluatedData.Attribute == GetManaAttribute())
+	{
+		SetHealth(FMath::Clamp(GetMana(), 0.0f, GetMaxMana()));
+
+		if (GetMana() <= 0.0f)
+		{
+			// TODO: Handle out of mana
 		}
 	}
 }

@@ -46,7 +46,9 @@ protected:
 
 private:
 	void OnHealthChanged(const FOnAttributeChangeData& Data);
+	void OnMaxHealthChanged(const FOnAttributeChangeData& Data);
 	void OnManaChanged(const FOnAttributeChangeData& Data);
+	void OnMaxManaChanged(const FOnAttributeChangeData& Data);
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "PJB")

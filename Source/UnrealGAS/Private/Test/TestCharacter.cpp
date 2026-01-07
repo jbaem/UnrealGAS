@@ -63,6 +63,15 @@ void ATestCharacter::BeginPlay()
 
 		FOnGameplayAttributeValueChange& OnHealthChange = ASC->GetGameplayAttributeValueChangeDelegate(UStatusAttributeSet::GetHealthAttribute());
 		OnHealthChange.AddUObject(this, &ATestCharacter::OnHealthChanged);
+
+		FOnGameplayAttributeValueChange& OnMaxHealthChange = ASC->GetGameplayAttributeValueChangeDelegate(UStatusAttributeSet::GetMaxHealthAttribute());
+		OnMaxHealthChange.AddUObject(this, &ATestCharacter::OnMaxHealthChanged);
+
+		FOnGameplayAttributeValueChange& OnManaChange = ASC->GetGameplayAttributeValueChangeDelegate(UStatusAttributeSet::GetManaAttribute());
+		OnManaChange.AddUObject(this, &ATestCharacter::OnManaChanged);
+
+		FOnGameplayAttributeValueChange& OnMaxManaChange = ASC->GetGameplayAttributeValueChangeDelegate(UStatusAttributeSet::GetMaxManaAttribute());
+		OnMaxManaChange.AddUObject(this, &ATestCharacter::OnMaxManaChanged);
 	}
 	if (Status)
 	{
@@ -156,8 +165,18 @@ void ATestCharacter::OnHealthChanged(const FOnAttributeChangeData& Data)
 	ITwinResource::Execute_UpdateCurrentHealth(BarWidget->GetWidget(), Status->GetHealth());
 }
 
+void ATestCharacter::OnMaxHealthChanged(const FOnAttributeChangeData& Data)
+{
+	ITwinResource::Execute_UpdateMaxHealth(BarWidget->GetWidget(), Status->GetMaxHealth());
+}
+
 void ATestCharacter::OnManaChanged(const FOnAttributeChangeData& Data)
 {
 	UE_LOG(LogTemp, Log, TEXT("On Mana Changed: OldValue=%f, NewValue=%f"), Data.OldValue, Data.NewValue);
 	ITwinResource::Execute_UpdateCurrentMana(BarWidget->GetWidget(), Status->GetMana());
+}
+
+void ATestCharacter::OnMaxManaChanged(const FOnAttributeChangeData& Data)
+{
+	ITwinResource::Execute_UpdateMaxMana(BarWidget->GetWidget(), Status->GetMaxMana());
 }
