@@ -12,6 +12,7 @@
 #include "InputActionValue.h"
 
 #include "AbilitySystemComponent.h"
+#include "GAS/StatusAttributeSet.h"
 
 ATestCharacter::ATestCharacter()
 {
@@ -44,6 +45,7 @@ ATestCharacter::ATestCharacter()
 
 
 	ASC = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("ASC"));
+	Status = CreateDefaultSubobject<UStatusAttributeSet>(TEXT("Status"));
 }
 
 void ATestCharacter::BeginPlay()
@@ -53,8 +55,14 @@ void ATestCharacter::BeginPlay()
 	if (ASC)
 	{
 		ASC->InitAbilityActorInfo(this, this);
+
+		FOnGameplayAttributeValueChange& OnHealthChange = ASC->GetGameplayAttributeValueChangeDelegate(UStatusAttributeSet::GetHealthAttribute());
+		OnHealthChange.AddUObject(this, &ATestCharacter::OnHealthChanged);
 	}
-	
+	if (Status)
+	{
+		Status->SetHealth(100.0f);
+	}
 }
 
 void ATestCharacter::Tick(float DeltaTime)
@@ -125,5 +133,11 @@ void ATestCharacter::DoJumpStart()
 void ATestCharacter::DoJumpEnd()
 {
 	StopJumping();
+}
+
+void ATestCharacter::OnHealthChanged(const FOnAttributeChangeData& Data)
+{
+	UE_LOG(LogTemp, Log, TEXT("On Health Changed: OldValue=%f, NewValue=%f"), Data.OldValue, Data.NewValue);
+
 }
 

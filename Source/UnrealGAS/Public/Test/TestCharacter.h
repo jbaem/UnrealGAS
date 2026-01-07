@@ -4,8 +4,11 @@
 #include "GameFramework/Character.h"
 
 #include "AbilitySystemInterface.h"
+#include "GAS/StatusAttributeSet.h"
 
 #include "TestCharacter.generated.h"
+
+class UStatusAttributeSet;
 
 UCLASS()
 class UNREALGAS_API ATestCharacter : public ACharacter, public IAbilitySystemInterface
@@ -34,6 +37,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "PJB")
 	virtual void DoJumpEnd();
 
+	UFUNCTION(BlueprintCallable, Category = "PJB")
+	void OnHealthChanged(const FOnAttributeChangeData& Data);
+
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
@@ -59,4 +65,7 @@ protected:
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "PJB")
 	TObjectPtr<UAbilitySystemComponent> ASC = nullptr;
+
+	UPROPERTY()
+	TObjectPtr<UStatusAttributeSet> Status = nullptr;
 };
