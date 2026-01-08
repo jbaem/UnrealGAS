@@ -167,7 +167,6 @@ void ATestCharacter::OnHealthChanged(const FOnAttributeChangeData& Data)
 
 void ATestCharacter::OnMaxHealthChanged(const FOnAttributeChangeData& Data)
 {
-	float ChangedAmount = Data.NewValue - Data.OldValue;
 	ITwinResource::Execute_UpdateMaxHealth(BarWidget->GetWidget(), Status->GetMaxHealth());
 	ITwinResource::Execute_UpdateCurrentHealth(BarWidget->GetWidget(), Status->GetHealth());
 }
@@ -179,7 +178,6 @@ void ATestCharacter::OnManaChanged(const FOnAttributeChangeData& Data)
 
 void ATestCharacter::OnMaxManaChanged(const FOnAttributeChangeData& Data)
 {
-	float ChangedAmount = Data.NewValue - Data.OldValue;
 	ITwinResource::Execute_UpdateMaxMana(BarWidget->GetWidget(), Status->GetMaxMana());
 	ITwinResource::Execute_UpdateCurrentMana(BarWidget->GetWidget(), Status->GetMana());
 }

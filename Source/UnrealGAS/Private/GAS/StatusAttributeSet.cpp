@@ -1,4 +1,5 @@
 #include "GAS/StatusAttributeSet.h"
+
 #include "GameplayEffectExtension.h"
 
 UStatusAttributeSet::UStatusAttributeSet()
@@ -17,6 +18,18 @@ void UStatusAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute
 	if(Attribute == GetHealthAttribute())
 	{
 		NewValue = FMath::Clamp(NewValue, 0.0f, GetMaxHealth());
+	}
+
+	if(Attribute == GetMaxHealthAttribute())
+	{
+		// Set current health to new max health if it is greater than new max health
+		// NOTE: level up scenario
+		//if (NewValue > GetMaxHealth())
+		//{
+		//	UAbilitySystemComponent* ASC = GetOwningAbilitySystemComponent();
+		//	ASC->ApplyModToAttribute(GetHealthAttribute(), EGameplayModOp::Override, NewValue);
+		//}
+		NewValue = FMath::Max(NewValue, 1.0f);
 	}
 
 	if(Attribute == GetManaAttribute())
@@ -56,6 +69,8 @@ void UStatusAttributeSet::PostAttributeChange(const FGameplayAttribute & Attribu
 
 void UStatusAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
+	// Called after a gameplay effect has been executed that modifies an attribute's base value
+	// Note: This is only called for 'execute' type modifications, not for duration based effects
 	Super::PostGameplayEffectExecute(Data);
 
 	if(Data.EvaluatedData.Attribute == GetHealthAttribute())
@@ -70,7 +85,7 @@ void UStatusAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCall
 
 	if (Data.EvaluatedData.Attribute == GetManaAttribute())
 	{
-		SetHealth(FMath::Clamp(GetMana(), 0.0f, GetMaxMana()));
+		SetMana(FMath::Clamp(GetMana(), 0.0f, GetMaxMana()));
 
 		if (GetMana() <= 0.0f)
 		{
