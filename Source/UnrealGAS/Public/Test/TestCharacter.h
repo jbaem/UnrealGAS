@@ -28,6 +28,13 @@ protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 public:
+	UFUNCTION(BlueprintCallable)
+	void TestSetByCaller(float Amount);
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "PJB|Test")
+	TSubclassOf<class UGameplayEffect> TestEffect;
+	FGameplayTag Tag_EffectDamage;
+
+public:
 	UFUNCTION(BlueprintCallable, Category = "PJB")
 	virtual void DoMove(float Right, float Forward);
 	UFUNCTION(BlueprintCallable, Category = "PJB")

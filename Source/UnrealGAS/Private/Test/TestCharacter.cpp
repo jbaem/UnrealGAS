@@ -87,6 +87,8 @@ void ATestCharacter::BeginPlay()
 			}
 		}
 	}
+
+	Tag_EffectDamage = FGameplayTag::RequestGameplayTag(FName("Effect.Damage"));
 }
 
 void ATestCharacter::Tick(float DeltaTime)
@@ -107,6 +109,22 @@ void ATestCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ATestCharacter::Move);
 		EnhancedInputComponent->BindAction(MouseLookAction, ETriggerEvent::Triggered, this, &ATestCharacter::Look);
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ATestCharacter::Look);
+	}
+}
+
+void ATestCharacter::TestSetByCaller(float Amount)
+{
+	if (ASC)
+	{
+		FGameplayEffectContextHandle EffectContext = ASC->MakeEffectContext();
+		FGameplayEffectSpecHandle SpecHandle = ASC->MakeOutgoingSpec(TestEffect, 0.f, EffectContext);
+		if(SpecHandle.IsValid())
+		{
+			SpecHandle.Data->SetSetByCallerMagnitude(Tag_EffectDamage, Amount);
+			ASC->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
+
+			float FinalMag = SpecHandle.Data->GetSetByCallerMagnitude(FGameplayTag::RequestGameplayTag(FName("Effect.Damage")));
+		}
 	}
 }
 
