@@ -5,15 +5,15 @@
 #include "AbilitySystemComponent.h"
 #include "GAS/GASMacros.h"
 
-#include "ResourceAttributeSet.generated.h"
+#include "StatusAttributeSet.generated.h"
 
 UCLASS()
-class UNREALGAS_API UResourceAttributeSet : public UAttributeSet
+class UNREALGAS_API UStatusAttributeSet : public UAttributeSet
 {
 	GENERATED_BODY()
 
 public:
-	UResourceAttributeSet();
+	UStatusAttributeSet();
 
 	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
 	virtual void PostAttributeChange(const FGameplayAttribute& Attribute, float OldValue, float NewValue) override;
@@ -21,18 +21,10 @@ public:
 
 public:
 	UPROPERTY(BlueprintReadOnly, Category = "PJB|GAS|Attributes")
-	FGameplayAttributeData Health;
-	ATTRIBUTE_ACCESSORS(UResourceAttributeSet, Health);
+	FGameplayAttributeData MoveSpeed;
+	ATTRIBUTE_ACCESSORS(UStatusAttributeSet, MoveSpeed);
 
 	UPROPERTY(BlueprintReadOnly, Category = "PJB|GAS|Attributes")
-	FGameplayAttributeData MaxHealth;
-	ATTRIBUTE_ACCESSORS(UResourceAttributeSet, MaxHealth);
-
-	UPROPERTY(BlueprintReadOnly, Category = "PJB|GAS|Attributes")
-	FGameplayAttributeData Mana;
-	ATTRIBUTE_ACCESSORS(UResourceAttributeSet, Mana);
-
-	UPROPERTY(BlueprintReadOnly, Category = "PJB|GAS|Attributes")
-	FGameplayAttributeData MaxMana;
-	ATTRIBUTE_ACCESSORS(UResourceAttributeSet, MaxMana);
+	FGameplayAttributeData JumpPower;
+	ATTRIBUTE_ACCESSORS(UStatusAttributeSet, JumpPower);
 };

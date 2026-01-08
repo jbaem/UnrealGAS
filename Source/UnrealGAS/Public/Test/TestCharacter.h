@@ -87,6 +87,8 @@ protected:
 
 	UPROPERTY()
 	TObjectPtr<class UResourceAttributeSet> Resource = nullptr;
+	UPROPERTY()
+	TObjectPtr<class UStatusAttributeSet> Status = nullptr;
 
 private:
 	FGameplayTag Tag_EffectDamage;

@@ -16,6 +16,7 @@
 
 #include "AbilitySystemComponent.h"
 #include "GAS/ResourceAttributeSet.h"
+#include "GAS/StatusAttributeSet.h"
 
 ATestCharacter::ATestCharacter()
 {
@@ -50,7 +51,8 @@ ATestCharacter::ATestCharacter()
 	BarWidget->SetupAttachment(RootComponent);
 	
 	ASC = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("ASC"));
-	Resource = CreateDefaultSubobject<UResourceAttributeSet>(TEXT("Status"));
+	Resource = CreateDefaultSubobject<UResourceAttributeSet>(TEXT("Resource"));
+	Status = CreateDefaultSubobject<UStatusAttributeSet>(TEXT("Status"));
 }
 
 void ATestCharacter::BeginPlay()
