@@ -117,7 +117,7 @@ void ATestCharacter::TestSetByCaller(float Amount)
 	if (ASC)
 	{
 		FGameplayEffectContextHandle EffectContext = ASC->MakeEffectContext();
-		FGameplayEffectSpecHandle SpecHandle = ASC->MakeOutgoingSpec(TestEffect, 0.f, EffectContext);
+		FGameplayEffectSpecHandle SpecHandle = ASC->MakeOutgoingSpec(TestSetByCallerEffectClass, 0.f, EffectContext);
 		if(SpecHandle.IsValid())
 		{
 			SpecHandle.Data->SetSetByCallerMagnitude(Tag_EffectDamage, Amount);
@@ -125,6 +125,29 @@ void ATestCharacter::TestSetByCaller(float Amount)
 
 			float FinalMag = SpecHandle.Data->GetSetByCallerMagnitude(FGameplayTag::RequestGameplayTag(FName("Effect.Damage")));
 		}
+	}
+}
+
+void ATestCharacter::TestAddInfiniteEffect()
+{
+	if(TestInfiniteEffectClass && ASC)
+	{
+		FGameplayEffectContextHandle EffectContext = ASC->MakeEffectContext();
+		EffectContext.AddInstigator(this, this);
+		
+		FGameplayEffectSpecHandle SpecHandle = ASC->MakeOutgoingSpec(TestInfiniteEffectClass, 0.f, EffectContext);
+		if(SpecHandle.IsValid())
+		{
+			TestInfiniteEffectHandle = ASC->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
+		}
+	}
+}
+
+void ATestCharacter::TestRemoveInfiniteEffect()
+{
+	if(TestInfiniteEffectHandle.IsValid() && ASC)
+	{
+		ASC->RemoveActiveGameplayEffect(TestInfiniteEffectHandle);
 	}
 }
 

@@ -31,8 +31,14 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void TestSetByCaller(float Amount);
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "PJB|Test")
-	TSubclassOf<class UGameplayEffect> TestEffect;
-	FGameplayTag Tag_EffectDamage;
+	TSubclassOf<class UGameplayEffect> TestSetByCallerEffectClass;
+
+	UFUNCTION(BlueprintCallable)
+	void TestAddInfiniteEffect();
+	UFUNCTION(BlueprintCallable)
+	void TestRemoveInfiniteEffect();
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "PJB|Test")
+	TSubclassOf<class UGameplayEffect> TestInfiniteEffectClass;
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "PJB")
@@ -81,4 +87,8 @@ protected:
 
 	UPROPERTY()
 	TObjectPtr<class UStatusAttributeSet> Status = nullptr;
+
+private:
+	FGameplayTag Tag_EffectDamage;
+	FActiveGameplayEffectHandle TestInfiniteEffectHandle;
 };
