@@ -1,16 +1,20 @@
 #include "GEEC/GEEC_FireDamage.h"
 
 #include "GAS/ResourceAttributeSet.h"
+#include "GAS/StatusAttributeSet.h"
 
 struct FFireDamageStatics
 {
 	// capture definition: health attribute
 	DECLARE_ATTRIBUTE_CAPTUREDEF(Health);
+	DECLARE_ATTRIBUTE_CAPTUREDEF(AttackPower);
 
 	FFireDamageStatics()
 	{
 		// capture health from target entity, do not snapshot
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UResourceAttributeSet, Health, Target, false);
+		// capture attack power from source entity, snapshot
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UStatusAttributeSet, AttackPower, Source, true);
 	}
 };
 
@@ -22,7 +26,9 @@ static FFireDamageStatics& FireDamageStatics()
 
 UGEEC_FireDamage::UGEEC_FireDamage()
 {
+	// Specify the relevant attributes to capture
 	RelevantAttributesToCapture.Add(FireDamageStatics().HealthDef);
+	RelevantAttributesToCapture.Add(FireDamageStatics().AttackPowerDef);
 
 	Tag_DebuffBurn = FGameplayTag::RequestGameplayTag(FName("Status.Debuff.Burn"));
 	Tag_ElementFire = FGameplayTag::RequestGameplayTag(FName("Element.Fire"));
@@ -51,6 +57,26 @@ void UGEEC_FireDamage::Execute_Implementation(const FGameplayEffectCustomExecuti
 			{
 				Damage = DamageCurve->Eval(EffectLevel);
 			}
+		}
+
+		FAggregatorEvaluateParameters EvaluateParams;
+		EvaluateParams.SourceTags = SourceTags;
+		EvaluateParams.TargetTags = TargetTags;
+
+		float AttackPower = 0.0f;
+		bool Result = ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(
+			FireDamageStatics().AttackPowerDef, 
+			EvaluateParams, 
+			AttackPower
+		);
+
+		if (Result)
+		{
+			Damage += AttackPower;
+		}
+		else
+		{
+			// Failed to get current health, use minimum damage
 		}
 
 		//// Set Damage from SetByCaller
