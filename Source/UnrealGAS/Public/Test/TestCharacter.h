@@ -8,7 +8,7 @@
 
 #include "TestCharacter.generated.h"
 
-class UStatusAttributeSet;
+class UResourceAttributeSet;
 
 UCLASS()
 class UNREALGAS_API ATestCharacter : public ACharacter, public IAbilitySystemInterface
@@ -86,7 +86,7 @@ protected:
 	TObjectPtr<UAbilitySystemComponent> ASC = nullptr;
 
 	UPROPERTY()
-	TObjectPtr<class UStatusAttributeSet> Status = nullptr;
+	TObjectPtr<class UResourceAttributeSet> Resource = nullptr;
 
 private:
 	FGameplayTag Tag_EffectDamage;

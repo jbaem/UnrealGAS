@@ -4,7 +4,7 @@
 #include "AttributeSet.h"
 #include "AbilitySystemComponent.h"
 
-#include "StatusAttributeSet.generated.h"
+#include "ResourceAttributeSet.generated.h"
 
 // Attribute Set Macros
 #define ATTRIBUTE_ACCESSORS(ClassName, PropertyName) \
@@ -14,12 +14,12 @@
 	GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
 
 UCLASS()
-class UNREALGAS_API UStatusAttributeSet : public UAttributeSet
+class UNREALGAS_API UResourceAttributeSet : public UAttributeSet
 {
 	GENERATED_BODY()
 
 public:
-	UStatusAttributeSet();
+	UResourceAttributeSet();
 
 	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
 	virtual void PostAttributeChange(const FGameplayAttribute& Attribute, float OldValue, float NewValue) override;
@@ -28,17 +28,17 @@ public:
 public:
 	UPROPERTY(BlueprintReadOnly, Category = "PJB|GAS|Attributes")
 	FGameplayAttributeData Health;
-	ATTRIBUTE_ACCESSORS(UStatusAttributeSet, Health);
+	ATTRIBUTE_ACCESSORS(UResourceAttributeSet, Health);
 
 	UPROPERTY(BlueprintReadOnly, Category = "PJB|GAS|Attributes")
 	FGameplayAttributeData MaxHealth;
-	ATTRIBUTE_ACCESSORS(UStatusAttributeSet, MaxHealth);
+	ATTRIBUTE_ACCESSORS(UResourceAttributeSet, MaxHealth);
 
 	UPROPERTY(BlueprintReadOnly, Category = "PJB|GAS|Attributes")
 	FGameplayAttributeData Mana;
-	ATTRIBUTE_ACCESSORS(UStatusAttributeSet, Mana);
+	ATTRIBUTE_ACCESSORS(UResourceAttributeSet, Mana);
 
 	UPROPERTY(BlueprintReadOnly, Category = "PJB|GAS|Attributes")
 	FGameplayAttributeData MaxMana;
-	ATTRIBUTE_ACCESSORS(UStatusAttributeSet, MaxMana);
+	ATTRIBUTE_ACCESSORS(UResourceAttributeSet, MaxMana);
 };

@@ -1,8 +1,8 @@
-#include "GAS/StatusAttributeSet.h"
+#include "GAS/ResourceAttributeSet.h"
 
 #include "GameplayEffectExtension.h"
 
-UStatusAttributeSet::UStatusAttributeSet()
+UResourceAttributeSet::UResourceAttributeSet()
 {
 	InitMaxHealth(100.0f);
 	InitHealth(100.0f);
@@ -11,7 +11,7 @@ UStatusAttributeSet::UStatusAttributeSet()
 	InitMana(100.0f);
 }
 
-void UStatusAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
+void UResourceAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
 {
 	Super::PreAttributeBaseChange(Attribute, NewValue);
 
@@ -38,7 +38,7 @@ void UStatusAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute
 	}
 }
 
-void UStatusAttributeSet::PostAttributeChange(const FGameplayAttribute & Attribute, float OldValue, float NewValue)
+void UResourceAttributeSet::PostAttributeChange(const FGameplayAttribute & Attribute, float OldValue, float NewValue)
 {
 	Super::PostAttributeChange(Attribute, OldValue, NewValue);
 
@@ -67,7 +67,7 @@ void UStatusAttributeSet::PostAttributeChange(const FGameplayAttribute & Attribu
 	}
 }
 
-void UStatusAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
+void UResourceAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
 	// Called after a gameplay effect has been executed that modifies an attribute's base value
 	// Note: This is only called for 'execute' type modifications, not for duration based effects

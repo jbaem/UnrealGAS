@@ -15,7 +15,7 @@
 #include "Interface/TwinResource.h"
 
 #include "AbilitySystemComponent.h"
-#include "GAS/StatusAttributeSet.h"
+#include "GAS/ResourceAttributeSet.h"
 
 ATestCharacter::ATestCharacter()
 {
@@ -50,7 +50,7 @@ ATestCharacter::ATestCharacter()
 	BarWidget->SetupAttachment(RootComponent);
 	
 	ASC = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("ASC"));
-	Status = CreateDefaultSubobject<UStatusAttributeSet>(TEXT("Status"));
+	Resource = CreateDefaultSubobject<UResourceAttributeSet>(TEXT("Status"));
 }
 
 void ATestCharacter::BeginPlay()
@@ -61,29 +61,29 @@ void ATestCharacter::BeginPlay()
 	{
 		ASC->InitAbilityActorInfo(this, this);
 
-		FOnGameplayAttributeValueChange& OnHealthChange = ASC->GetGameplayAttributeValueChangeDelegate(UStatusAttributeSet::GetHealthAttribute());
+		FOnGameplayAttributeValueChange& OnHealthChange = ASC->GetGameplayAttributeValueChangeDelegate(UResourceAttributeSet::GetHealthAttribute());
 		OnHealthChange.AddUObject(this, &ATestCharacter::OnHealthChanged);
 
-		FOnGameplayAttributeValueChange& OnMaxHealthChange = ASC->GetGameplayAttributeValueChangeDelegate(UStatusAttributeSet::GetMaxHealthAttribute());
+		FOnGameplayAttributeValueChange& OnMaxHealthChange = ASC->GetGameplayAttributeValueChangeDelegate(UResourceAttributeSet::GetMaxHealthAttribute());
 		OnMaxHealthChange.AddUObject(this, &ATestCharacter::OnMaxHealthChanged);
 
-		FOnGameplayAttributeValueChange& OnManaChange = ASC->GetGameplayAttributeValueChangeDelegate(UStatusAttributeSet::GetManaAttribute());
+		FOnGameplayAttributeValueChange& OnManaChange = ASC->GetGameplayAttributeValueChangeDelegate(UResourceAttributeSet::GetManaAttribute());
 		OnManaChange.AddUObject(this, &ATestCharacter::OnManaChanged);
 
-		FOnGameplayAttributeValueChange& OnMaxManaChange = ASC->GetGameplayAttributeValueChangeDelegate(UStatusAttributeSet::GetMaxManaAttribute());
+		FOnGameplayAttributeValueChange& OnMaxManaChange = ASC->GetGameplayAttributeValueChangeDelegate(UResourceAttributeSet::GetMaxManaAttribute());
 		OnMaxManaChange.AddUObject(this, &ATestCharacter::OnMaxManaChanged);
 	}
-	if (Status)
+	if (Resource)
 	{
 		if (BarWidget && BarWidget->GetWidget())
 		{
 			if (BarWidget->GetWidget()->Implements<UTwinResource>())
 			{
-				ITwinResource::Execute_UpdateMaxHealth(BarWidget->GetWidget(), Status->GetMaxHealth());
-				ITwinResource::Execute_UpdateCurrentHealth(BarWidget->GetWidget(), Status->GetHealth());
+				ITwinResource::Execute_UpdateMaxHealth(BarWidget->GetWidget(), Resource->GetMaxHealth());
+				ITwinResource::Execute_UpdateCurrentHealth(BarWidget->GetWidget(), Resource->GetHealth());
 				
-				ITwinResource::Execute_UpdateMaxMana(BarWidget->GetWidget(), Status->GetMaxMana());
-				ITwinResource::Execute_UpdateCurrentMana(BarWidget->GetWidget(), Status->GetMana());
+				ITwinResource::Execute_UpdateMaxMana(BarWidget->GetWidget(), Resource->GetMaxMana());
+				ITwinResource::Execute_UpdateCurrentMana(BarWidget->GetWidget(), Resource->GetMana());
 			}
 		}
 	}
@@ -203,22 +203,22 @@ void ATestCharacter::DoJumpEnd()
 void ATestCharacter::OnHealthChanged(const FOnAttributeChangeData& Data)
 {
 	//UE_LOG(LogTemp, Log, TEXT("On Health Changed: OldValue=%f, NewValue=%f"), Data.OldValue, Data.NewValue);
-	ITwinResource::Execute_UpdateCurrentHealth(BarWidget->GetWidget(), Status->GetHealth());
+	ITwinResource::Execute_UpdateCurrentHealth(BarWidget->GetWidget(), Resource->GetHealth());
 }
 
 void ATestCharacter::OnMaxHealthChanged(const FOnAttributeChangeData& Data)
 {
-	ITwinResource::Execute_UpdateMaxHealth(BarWidget->GetWidget(), Status->GetMaxHealth());
-	ITwinResource::Execute_UpdateCurrentHealth(BarWidget->GetWidget(), Status->GetHealth());
+	ITwinResource::Execute_UpdateMaxHealth(BarWidget->GetWidget(), Resource->GetMaxHealth());
+	ITwinResource::Execute_UpdateCurrentHealth(BarWidget->GetWidget(), Resource->GetHealth());
 }
 
 void ATestCharacter::OnManaChanged(const FOnAttributeChangeData& Data)
 {
-	ITwinResource::Execute_UpdateCurrentMana(BarWidget->GetWidget(), Status->GetMana());
+	ITwinResource::Execute_UpdateCurrentMana(BarWidget->GetWidget(), Resource->GetMana());
 }
 
 void ATestCharacter::OnMaxManaChanged(const FOnAttributeChangeData& Data)
 {
-	ITwinResource::Execute_UpdateMaxMana(BarWidget->GetWidget(), Status->GetMaxMana());
-	ITwinResource::Execute_UpdateCurrentMana(BarWidget->GetWidget(), Status->GetMana());
+	ITwinResource::Execute_UpdateMaxMana(BarWidget->GetWidget(), Resource->GetMaxMana());
+	ITwinResource::Execute_UpdateCurrentMana(BarWidget->GetWidget(), Resource->GetMana());
 }
