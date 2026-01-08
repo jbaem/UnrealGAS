@@ -29,6 +29,29 @@ void UStatusAttributeSet::PostAttributeChange(const FGameplayAttribute & Attribu
 {
 	Super::PostAttributeChange(Attribute, OldValue, NewValue);
 
+	if(Attribute == GetMaxHealthAttribute())
+	{
+		if (OldValue < NewValue)
+		{
+			SetHealth(GetHealth() + (NewValue - OldValue));
+		}
+		else if (GetHealth() > NewValue)
+		{
+			SetHealth(NewValue);
+		}
+	}
+
+	if(Attribute == GetMaxManaAttribute())
+	{
+		if (OldValue < NewValue)
+		{
+			SetMana(GetMana() + (NewValue - OldValue));
+		}
+		else if (GetMana() > NewValue)
+		{
+			SetMana(NewValue);
+		}
+	}
 }
 
 void UStatusAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)

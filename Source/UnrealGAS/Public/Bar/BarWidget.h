@@ -21,6 +21,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "PJB")
 	void SetProgressBarColor(FLinearColor LinearColor);
 
+private:
+	inline float ValuesToPercent();
+
 protected:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UProgressBar> BackgroundProgressBar;
@@ -30,5 +33,6 @@ protected:
 	TObjectPtr<UTextBlock> Max = nullptr;
 
 private:
+	float CurrentValue = 1.0f;
 	float MaxValue = 1.0f;
 };

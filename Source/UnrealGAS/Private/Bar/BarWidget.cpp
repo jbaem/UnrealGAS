@@ -6,16 +6,23 @@
 void UBarWidget::UpdateCurrent_Implementation(float Value)
 {
 	Current->SetText(FText::AsNumber(FMath::RoundToInt(Value)));
-	BackgroundProgressBar->SetPercent(MaxValue > 0 ? Value / MaxValue : 0.0f);
+	CurrentValue = Value;
+	BackgroundProgressBar->SetPercent(ValuesToPercent());
 }
 
 void UBarWidget::UpdateMax_Implementation(float Value)
 {
 	Max->SetText(FText::AsNumber(FMath::RoundToInt(Value)));
 	MaxValue = Value;
+	BackgroundProgressBar->SetPercent(ValuesToPercent());
 }
 
 void UBarWidget::SetProgressBarColor(FLinearColor LinearColor)
 {
 	BackgroundProgressBar->SetFillColorAndOpacity(LinearColor);
+}
+
+float UBarWidget::ValuesToPercent()
+{
+	return MaxValue > 0 ? CurrentValue / MaxValue : 0.0f;
 }
