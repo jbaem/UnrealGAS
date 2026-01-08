@@ -3,22 +3,22 @@
 #include "CoreMinimal.h"
 #include "TestZone/TestZone.h"
 
-#include "DamageZone.generated.h"
+#include "ManaDrainZone.generated.h"
 
 UCLASS()
-class UNREALGAS_API ADamageZone : public ATestZone
+class UNREALGAS_API AManaDrainZone : public ATestZone
 {
 	GENERATED_BODY()
-	
-public:	
-	ADamageZone();
+
+public:
+	AManaDrainZone();
 
 protected:
 	virtual void BeginPlay() override;
 
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "PJB|Test")
-	TSubclassOf<class UGameplayEffect> DamageEffectClass = nullptr;
+	TSubclassOf<class UGameplayEffect> ManaDrainEffectClass = nullptr;
 
 protected:
 	virtual void ApplyZoneEffect(class UAbilitySystemComponent* ASC) override;

@@ -29,5 +29,8 @@ protected:
 	UFUNCTION()
 	virtual void OnEndOverlap(AActor* OverlappedActor, AActor* OtherActor);
 
+	UFUNCTION()
+	virtual void ApplyZoneEffect(class UAbilitySystemComponent* AbilitySystemComp);
+
 	TMap<class UAbilitySystemComponent*, FActiveGameplayEffectHandle> ActiveEffectHandle;
 };

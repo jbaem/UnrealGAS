@@ -25,6 +25,12 @@ void ATestZone::BeginPlay()
 
 void ATestZone::OnBeginOverlap(AActor* OverlappedActor, AActor* OtherActor)
 {
+	UAbilitySystemComponent* ASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor);
+	if (ASC && !ActiveEffectHandle.Contains(ASC))
+	{
+		ActiveEffectHandle.Add(ASC, FActiveGameplayEffectHandle());
+		ApplyZoneEffect(ASC);
+	}
 }
 
 void ATestZone::OnEndOverlap(AActor * OverlappedActor, AActor * OtherActor)
@@ -38,5 +44,10 @@ void ATestZone::OnEndOverlap(AActor * OverlappedActor, AActor * OtherActor)
 			ActiveEffectHandle.Remove(ASC);
 		}
 	}
+}
+
+void ATestZone::ApplyZoneEffect(UAbilitySystemComponent* AbilitySystemComp)
+{
+	// Super class does nothing
 }
 

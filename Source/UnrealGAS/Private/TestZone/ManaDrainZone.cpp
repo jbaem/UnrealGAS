@@ -1,24 +1,24 @@
-#include "TestZone/DamageZone.h"
+#include "TestZone/ManaDrainZone.h"
 
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
 
-ADamageZone::ADamageZone()
+AManaDrainZone::AManaDrainZone()
 {
 	PrimaryActorTick.bCanEverTick = false;
 }
 
-void ADamageZone::BeginPlay()
+void AManaDrainZone::BeginPlay()
 {
 	Super::BeginPlay();
 }
 
-void ADamageZone::ApplyZoneEffect(UAbilitySystemComponent* ASC)
+void AManaDrainZone::ApplyZoneEffect(UAbilitySystemComponent* ASC)
 {
 	FGameplayEffectContextHandle EffectContext = ASC->MakeEffectContext();
 	EffectContext.AddInstigator(this, this);
 
-	FGameplayEffectSpecHandle SpecHandle = ASC->MakeOutgoingSpec(DamageEffectClass, 1.f, EffectContext);
+	FGameplayEffectSpecHandle SpecHandle = ASC->MakeOutgoingSpec(ManaDrainEffectClass, 1.f, EffectContext);
 	if (SpecHandle.IsValid())
 	{
 		FActiveGameplayEffectHandle ActiveGEHandle = ASC->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
