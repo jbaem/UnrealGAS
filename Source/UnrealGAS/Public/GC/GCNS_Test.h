@@ -1,0 +1,22 @@
+#pragma once
+
+#include "CoreMinimal.h"
+#include "GameplayCueNotify_Static.h"
+
+#include "GCNS_Test.generated.h"
+
+UCLASS()
+class UNREALGAS_API UGCNS_Test : public UGameplayCueNotify_Static
+{
+	GENERATED_BODY()
+
+public:
+	UGCNS_Test();
+
+	virtual bool OnExecute_Implementation(AActor* MyTarget, const FGameplayCueParameters& Parameters) const override;
+
+protected:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "VFX")
+	TObjectPtr<class UNiagaraSystem> BurstVFX = nullptr;
+
+};
