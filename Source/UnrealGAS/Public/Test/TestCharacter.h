@@ -66,6 +66,8 @@ private:
 	void OnMaxHealthChanged(const FOnAttributeChangeData& Data);
 	void OnManaChanged(const FOnAttributeChangeData& Data);
 	void OnMaxManaChanged(const FOnAttributeChangeData& Data);
+	
+	void OnAbility1Press();
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "PJB")
@@ -84,6 +86,8 @@ protected:
 	TObjectPtr<class UInputAction> LookAction;
 	UPROPERTY(EditAnywhere, Category = "PJB|Input")
 	TObjectPtr<class UInputAction> MouseLookAction;
+	UPROPERTY(EditAnywhere, Category = "PJB|Input")
+	TObjectPtr<class UInputAction> Ability1Action;
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "PJB")

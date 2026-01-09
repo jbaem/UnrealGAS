@@ -17,6 +17,7 @@
 #include "AbilitySystemComponent.h"
 #include "GAS/ResourceAttributeSet.h"
 #include "GAS/StatusAttributeSet.h"
+#include "GAS/GASEnums.h"
 
 ATestCharacter::ATestCharacter()
 {
@@ -65,7 +66,7 @@ void ATestCharacter::BeginPlay()
 
 		if (HasteClass)
 		{
-			ASC->GiveAbility(FGameplayAbilitySpec(HasteClass, 1, -1, this));
+			ASC->GiveAbility(FGameplayAbilitySpec(HasteClass, 1, static_cast<int32>(EAbilityInputID::HASTE), this));
 		}
 
 		FOnGameplayAttributeValueChange& OnHealthChange = ASC->GetGameplayAttributeValueChangeDelegate(UResourceAttributeSet::GetHealthAttribute());
@@ -116,6 +117,8 @@ void ATestCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ATestCharacter::Move);
 		EnhancedInputComponent->BindAction(MouseLookAction, ETriggerEvent::Triggered, this, &ATestCharacter::Look);
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ATestCharacter::Look);
+	
+		EnhancedInputComponent->BindAction(Ability1Action, ETriggerEvent::Started, this, &ATestCharacter::OnAbility1Press);
 	}
 }
 
@@ -236,4 +239,12 @@ void ATestCharacter::OnMaxManaChanged(const FOnAttributeChangeData& Data)
 {
 	ITwinResource::Execute_UpdateMaxMana(BarWidget->GetWidget(), Resource->GetMaxMana());
 	ITwinResource::Execute_UpdateCurrentMana(BarWidget->GetWidget(), Resource->GetMana());
+}
+
+void ATestCharacter::OnAbility1Press()
+{
+	if (ASC)
+	{
+		ASC->AbilityLocalInputPressed(static_cast<int32>(EAbilityInputID::HASTE));
+	}
 }
