@@ -68,6 +68,16 @@ void ATestCharacter::BeginPlay()
 		{
 			ASC->GiveAbility(FGameplayAbilitySpec(HasteClass, 1, static_cast<int32>(EAbilityInputID::HASTE), this));
 		}
+		
+		if (SuperJumpClass)
+		{
+			ASC->GiveAbility(FGameplayAbilitySpec(SuperJumpClass, 1, static_cast<int32>(EAbilityInputID::SUPERJUMP), this));
+		}
+
+		if(ChargingJumpClass)
+		{
+			ASC->GiveAbility(FGameplayAbilitySpec(ChargingJumpClass, 1, static_cast<int32>(EAbilityInputID::CHARGINGJUMP), this));
+		}
 
 		FOnGameplayAttributeValueChange& OnHealthChange = ASC->GetGameplayAttributeValueChangeDelegate(UResourceAttributeSet::GetHealthAttribute());
 		OnHealthChange.AddUObject(this, &ATestCharacter::OnHealthChanged);
@@ -119,6 +129,9 @@ void ATestCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ATestCharacter::Look);
 	
 		EnhancedInputComponent->BindAction(Ability1Action, ETriggerEvent::Started, this, &ATestCharacter::OnAbility1Press);
+		EnhancedInputComponent->BindAction(Ability2Action, ETriggerEvent::Started, this, &ATestCharacter::OnAbility2Press);
+		EnhancedInputComponent->BindAction(Ability3Action, ETriggerEvent::Started, this, &ATestCharacter::OnAbility3Press);
+		EnhancedInputComponent->BindAction(Ability3Action, ETriggerEvent::Completed, this, &ATestCharacter::OnAbility3Release);
 	}
 }
 
@@ -246,5 +259,29 @@ void ATestCharacter::OnAbility1Press()
 	if (ASC)
 	{
 		ASC->AbilityLocalInputPressed(static_cast<int32>(EAbilityInputID::HASTE));
+	}
+}
+
+void ATestCharacter::OnAbility2Press()
+{
+	if (ASC)
+	{
+		ASC->AbilityLocalInputPressed(static_cast<int32>(EAbilityInputID::SUPERJUMP));
+	}
+}
+
+void ATestCharacter::OnAbility3Press()
+{
+	if (ASC)
+	{
+		ASC->AbilityLocalInputPressed(static_cast<int32>(EAbilityInputID::CHARGINGJUMP));
+	}
+}
+
+void ATestCharacter::OnAbility3Release()
+{
+	if (ASC)
+	{
+		ASC->AbilityLocalInputReleased(static_cast<int32>(EAbilityInputID::CHARGINGJUMP));
 	}
 }

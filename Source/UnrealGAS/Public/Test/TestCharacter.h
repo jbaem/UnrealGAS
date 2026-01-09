@@ -68,6 +68,9 @@ private:
 	void OnMaxManaChanged(const FOnAttributeChangeData& Data);
 	
 	void OnAbility1Press();
+	void OnAbility2Press();
+	void OnAbility3Press();
+	void OnAbility3Release();
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "PJB")
@@ -88,6 +91,10 @@ protected:
 	TObjectPtr<class UInputAction> MouseLookAction;
 	UPROPERTY(EditAnywhere, Category = "PJB|Input")
 	TObjectPtr<class UInputAction> Ability1Action;
+	UPROPERTY(EditAnywhere, Category = "PJB|Input")
+	TObjectPtr<class UInputAction> Ability2Action;
+	UPROPERTY(EditAnywhere, Category = "PJB|Input")
+	TObjectPtr<class UInputAction> Ability3Action;
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "PJB")
@@ -100,6 +107,10 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PJB|Ability")
 	TSubclassOf<class UGameplayAbility> HasteClass = nullptr;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PJB|Ability")
+	TSubclassOf<class UGameplayAbility> SuperJumpClass = nullptr;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PJB|Ability")
+	TSubclassOf<class UGameplayAbility> ChargingJumpClass = nullptr;
 
 private:
 	FGameplayTag Tag_EffectDamage;

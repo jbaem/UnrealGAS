@@ -3,15 +3,15 @@
 #include "CoreMinimal.h"
 #include "Abilities/GameplayAbility.h"
 
-#include "GA_Haste.generated.h"
+#include "GA_SuperJump.generated.h"
 
 UCLASS()
-class UNREALGAS_API UGA_Haste : public UGameplayAbility
+class UNREALGAS_API UGA_SuperJump : public UGameplayAbility
 {
 	GENERATED_BODY()
-
+	
 public:
-	UGA_Haste();
+	UGA_SuperJump();
 
 	virtual void ActivateAbility(
 		const FGameplayAbilitySpecHandle Handle,
@@ -20,7 +20,7 @@ public:
 		const FGameplayEventData* TriggerEventData
 	) override;
 
-protected:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "PJB|Ability|Haste")
-	TSubclassOf<UGameplayEffect> HasteEffectClass;
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PJB|Ability|SuperJump")
+	float JumpPower = 1000.0f;
 };
