@@ -25,8 +25,8 @@ public:
 	ATTRIBUTE_ACCESSORS(UStatusAttributeSet, AttackPower);
 
 	UPROPERTY(BlueprintReadOnly, Category = "PJB|GAS|Attributes")
-	FGameplayAttributeData MoveSpeed;
-	ATTRIBUTE_ACCESSORS(UStatusAttributeSet, MoveSpeed);
+	FGameplayAttributeData CriticalRate;
+	ATTRIBUTE_ACCESSORS(UStatusAttributeSet, CriticalRate);
 	
 	UPROPERTY(BlueprintReadOnly, Category = "PJB|GAS|Attributes")
 	FGameplayAttributeData MoveSpeed;

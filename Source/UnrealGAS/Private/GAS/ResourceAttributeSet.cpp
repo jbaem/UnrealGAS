@@ -4,8 +4,8 @@
 
 UResourceAttributeSet::UResourceAttributeSet()
 {
-	InitMaxHealth(100.0f);
-	InitHealth(100.0f);
+	InitMaxHealth(500.0f);
+	InitHealth(500.0f);
 
 	InitMaxMana(100.0f);
 	InitMana(100.0f);
