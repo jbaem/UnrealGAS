@@ -15,6 +15,7 @@
 #include "Interface/TwinResource.h"
 
 #include "AbilitySystemComponent.h"
+#include "AbilitySystemBlueprintLibrary.h"
 #include "GAS/ResourceAttributeSet.h"
 #include "GAS/StatusAttributeSet.h"
 #include "GAS/GASEnums.h"
@@ -113,6 +114,7 @@ void ATestCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	TestLineTrace();
 }
 
 void ATestCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -179,6 +181,53 @@ void ATestCharacter::TestApplyHaste()
 	if (ASC)
 	{
 		ASC->TryActivateAbilityByClass(HasteClass);
+	}
+}
+
+void ATestCharacter::TestLineTrace()
+{
+	FVector Start = GetActorLocation();
+	FVector End = Start + GetActorForwardVector() * 1000.f;
+
+	FCollisionQueryParams QueryParams;
+	QueryParams.AddIgnoredActor(this);
+
+	FHitResult HitResult;
+	bool bHit = GetWorld()->LineTraceSingleByChannel(
+		HitResult, 
+		Start, 
+		End, 
+		ECC_Visibility, 
+		QueryParams
+	);
+
+	if (bHit)
+	{
+		DrawDebugLine(GetWorld(), Start, HitResult.ImpactPoint, FColor::Yellow, false, 1.0f, 0, 1.0f);
+		DrawDebugPoint(GetWorld(), HitResult.ImpactPoint, 10.0f, FColor::Red, false, 1.0f);
+	
+		AActor* Target = HitResult.GetActor();
+		UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Target);
+		if(TargetASC && TestHitEffectClass)
+		{
+			FGameplayEffectContextHandle EffectContext = ASC->MakeEffectContext();
+			EffectContext.AddHitResult(HitResult);
+			EffectContext.AddInstigator(GetInstigator(), this);
+			
+			FGameplayEffectSpecHandle SpecHandle = ASC->MakeOutgoingSpec(
+				TestHitEffectClass, 
+				1.0f, 
+				EffectContext
+			);
+			if(SpecHandle.IsValid())
+			{
+				TargetASC->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
+			}
+		}
+	}
+	else
+	{
+		DrawDebugLine(GetWorld(), Start, End, FColor::Green, false, 1.0f, 0, 1.0f);
 	}
 }
 

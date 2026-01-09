@@ -43,6 +43,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void TestApplyHaste();
 
+	UFUNCTION(BlueprintCallable)
+	void TestLineTrace();
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "PJB|Test")
+	TSubclassOf<class UGameplayEffect> TestHitEffectClass = nullptr;
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "PJB")
