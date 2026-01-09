@@ -63,6 +63,11 @@ void ATestCharacter::BeginPlay()
 	{
 		ASC->InitAbilityActorInfo(this, this);
 
+		if (HasteClass)
+		{
+			ASC->GiveAbility(FGameplayAbilitySpec(HasteClass, 1, -1, this));
+		}
+
 		FOnGameplayAttributeValueChange& OnHealthChange = ASC->GetGameplayAttributeValueChangeDelegate(UResourceAttributeSet::GetHealthAttribute());
 		OnHealthChange.AddUObject(this, &ATestCharacter::OnHealthChanged);
 
@@ -150,6 +155,14 @@ void ATestCharacter::TestRemoveInfiniteEffect()
 	if(TestInfiniteEffectHandle.IsValid() && ASC)
 	{
 		ASC->RemoveActiveGameplayEffect(TestInfiniteEffectHandle);
+	}
+}
+
+void ATestCharacter::TestApplyHaste()
+{
+	if (ASC)
+	{
+		ASC->TryActivateAbilityByClass(HasteClass);
 	}
 }
 

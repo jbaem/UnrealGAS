@@ -39,6 +39,10 @@ public:
 	void TestRemoveInfiniteEffect();
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "PJB|Test")
 	TSubclassOf<class UGameplayEffect> TestInfiniteEffectClass;
+	
+	UFUNCTION(BlueprintCallable)
+	void TestApplyHaste();
+
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "PJB")
@@ -89,6 +93,9 @@ protected:
 	TObjectPtr<class UResourceAttributeSet> Resource = nullptr;
 	UPROPERTY()
 	TObjectPtr<class UStatusAttributeSet> Status = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PJB|Ability")
+	TSubclassOf<class UGameplayAbility> HasteClass = nullptr;
 
 private:
 	FGameplayTag Tag_EffectDamage;
